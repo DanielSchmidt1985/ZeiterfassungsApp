@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Stechuhr.Controls
 {
@@ -20,11 +11,33 @@ namespace Stechuhr.Controls
     /// </summary>
     public partial class StechuhrPanel : UserControl
     {
+        public delegate void StechuhrPanelEventHandler(object sender, StechuhrPanelEventArgs args);
+        public event StechuhrPanelEventHandler OnClose;
+
         public WorktimeProvider worktimeProvider { get; private set; }
+        public DispatcherTimer timer = new DispatcherTimer();
 
         public StechuhrPanel()
         {
             InitializeComponent();
+
+            lblUhrzeit.Content = DateTime.Now.ToLongTimeString();
+
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
+            RefreshLayout(btnStempeln, WorktimeStatus.NotWorking);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            lblUhrzeit.Content = DateTime.Now.ToLongTimeString();
+            if (worktimeProvider.Status == WorktimeStatus.Working)
+            {
+                lblStartWorking.Content = worktimeProvider.CurrentWorktime.StartTime.ToLongTimeString();
+                lblWorkingTime.Content = worktimeProvider.CurrentWorktimeSpan().ToString(@"hh\:mm\:ss");
+            }
         }
 
         public void InitializeWorktimeProvider(WorktimeProvider worktimeProvider)
@@ -32,13 +45,46 @@ namespace Stechuhr.Controls
             this.worktimeProvider = worktimeProvider;
         }
 
-        private void Pause(object sender, RoutedEventArgs e)
-        {
-           
-        }
         private void Stempeln(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                RefreshLayout(sender, worktimeProvider.Stamping());
+            }
+            catch (Exception)
+            {
+                lblStatus.Content = "Ungültige Operation";
+            }
+        }
 
+        private void RefreshLayout(object sender, WorktimeStatus worktimeCommandResult)
+        {
+            if (sender.Equals(btnStempeln))
+            {
+                if (worktimeCommandResult == WorktimeStatus.Working)
+                {
+                    btnStempeln.Background = Brushes.Tomato;
+                    btnStempeln.Content = "Gehen";
+                }
+                else
+                {
+                    btnStempeln.Background = Brushes.LightGreen;
+                    btnStempeln.Content = "Kommen";
+                }
+            }
+            lblStatus.Content = "Bereit";
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            if (worktimeProvider.Status == WorktimeStatus.NotWorking)
+            {
+                OnClose(this, new StechuhrPanelEventArgs());
+            }
+            else
+            {
+                lblStatus.Content = "Erst gehen vor dem schließen!";
+            }
         }
     }
 }

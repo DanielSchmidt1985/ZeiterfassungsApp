@@ -1,10 +1,19 @@
-﻿using System;
+﻿using Stechuhr.Models;
+using System;
 
 namespace Stechuhr
 {
-    public class PauseItem
+    public class PauseItem : WorktimeItemBase
     {
-        public DateTime StartTime { get; set; } = DateTime.UtcNow;
-        public DateTime EndTime { get; set; } = DateTime.MinValue;
+        public override Object Clone(Object o)
+        {
+            o = base.Clone(o);
+            return o;
+        }
+
+        public override object Clone()
+        {
+            return Clone(new PauseItem());
+        }
     }
 }

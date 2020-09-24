@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Stechuhr
 {
-    public class WorktimeItemCollection: WorktimeItemBase
+    public class WorktimeItemCollection: WorktimeItemCollectionBase
     {
     }
 }

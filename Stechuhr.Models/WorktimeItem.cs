@@ -1,15 +1,25 @@
-﻿using System;
+﻿using Stechuhr.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Stechuhr
 {
-    public class WorktimeItem
+    public class WorktimeItem : WorktimeItemBase
     {
-        public DateTime StartTime { get; set; } = DateTime.UtcNow;
-        public DateTime EndTime { get; set; } = DateTime.MinValue;
         public List<PauseItem> Pause { get; set; } = new List<PauseItem>();
 
+        public override Object Clone(Object o)
+        {
+            o = base.Clone(o);
+            Pause.ForEach(t => ((WorktimeItem)o).Pause.Add((PauseItem)t.Clone()));
+            return o;
+        }
+
+        public override object Clone()
+        {
+            return Clone(new WorktimeItem());
+        }
     }
 
 }

@@ -15,11 +15,13 @@ namespace Stechuhr.UI.WindowsForms
         [STAThread]
         static void Main()
         {
-            WorktimeProvider worktimeProvider = new WorktimeProvider();
-            worktimeProvider.LoadWorktimeData(Path.Combine(Path.GetDirectoryName(Application.UserAppDataPath), "WorktimeData.json"));
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            WorktimeProvider worktimeProvider = new WorktimeProvider();
+            worktimeProvider.LoadWorktimeData(Path.Combine(Path.GetDirectoryName(Application.UserAppDataPath), "WorktimeData.json"));
+
             Application.Run(new frmStechuhr(worktimeProvider));
 
             worktimeProvider.SaveWorktimeData();

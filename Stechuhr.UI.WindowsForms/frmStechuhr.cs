@@ -24,17 +24,10 @@ namespace Stechuhr.UI.WindowsForms
             WorktimeProvider = worktimeProvider;
             stechuhrPanel.InitializeWorktimeProvider(worktimeProvider);
 
-            // Form Closing Event
-            this.FormClosing += MainForm_FormClosing;
+            // StechuhrPanel raised Closing
+            this.stechuhrPanel.OnClose += (s, a) => Close();
         }
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!this.AllowClosing && e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-                this.Hide();
-            }
-        }
+
 
     }
 }
