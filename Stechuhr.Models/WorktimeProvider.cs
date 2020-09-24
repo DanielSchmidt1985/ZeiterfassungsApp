@@ -114,6 +114,12 @@ namespace Stechuhr
         public void SaveWorktimeData()
         {
             JsonSerializerSettings jsonSerializerOptions = new JsonSerializerSettings();
+            try
+            {
+                File.Copy(FilePath, Path.Combine(Path.GetDirectoryName(FilePath), "Backup-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".bak"), true);
+            }
+            catch (Exception)
+            { }
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(Worktimes, jsonSerializerOptions));
         }
 

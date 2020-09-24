@@ -20,7 +20,7 @@ namespace Stechuhr.UI.WindowsForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             WorktimeProvider worktimeProvider = new WorktimeProvider();
-            worktimeProvider.LoadWorktimeData(Path.Combine(Path.GetDirectoryName(Application.UserAppDataPath), "WorktimeData.json"));
+            worktimeProvider.LoadWorktimeData(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Application.UserAppDataPath)), "WorktimeData.json"));
 
             Application.Run(new frmStechuhr(worktimeProvider));
 
