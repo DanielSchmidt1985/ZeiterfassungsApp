@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Stechuhr.Controls.StechuhrPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Stechuhr.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Button Name="btnStempeln" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" FontFamily="Verdana" FontSize="24" FontWeight="Bold" Background="#FF69C769" Click="Stempeln">Einstempeln</Button>
+        <Button Name="btnPause" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" FontFamily="Verdana" FontSize="24" FontWeight="Bold" Background="#FFD5E280" Click="Pause">Pause</Button>
+        <Button Name="btnExit" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="20,10,20,10" FontFamily="Verdana" FontSize="22">Beenden</Button>
+
+    </Grid>
+
+</UserControl>
