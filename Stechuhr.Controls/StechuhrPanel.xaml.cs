@@ -33,11 +33,14 @@ namespace Stechuhr.Controls
         private void Timer_Tick(object sender, EventArgs e)
         {
             lblUhrzeit.Content = DateTime.Now.ToLongTimeString();
-            if (worktimeProvider.Status == WorktimeStatus.Working)
-            {
-                lblStartWorking.Content = worktimeProvider.CurrentWorktime.StartTime.ToLongTimeString();
-                lblWorkingTime.Content = worktimeProvider.CurrentWorktimeSpan().ToString(@"hh\:mm\:ss");
-            }
+
+            DateTime startWorking = worktimeProvider.TodayWorktimeStart;
+            lblStartWorking.Content = startWorking == DateTime.MinValue ? "" : startWorking.ToLongTimeString();
+
+            lblEndWorking.Content = worktimeProvider.TodayWorktimeEnd.ToLongTimeString();
+
+            lblWorkingTime.Content = worktimeProvider.TodayWorktimeSpan.ToString(@"hh\:mm\:ss");
+            lblPauseTime.Content = worktimeProvider.TodayPauseSpan.ToString(@"hh\:mm\:ss");
         }
 
         public void InitializeWorktimeProvider(WorktimeProvider worktimeProvider)
@@ -59,32 +62,27 @@ namespace Stechuhr.Controls
 
         private void RefreshLayout(object sender, WorktimeStatus worktimeCommandResult)
         {
-            if (sender.Equals(btnStempeln))
+            if (worktimeCommandResult == WorktimeStatus.Working)
             {
-                if (worktimeCommandResult == WorktimeStatus.Working)
-                {
-                    btnStempeln.Background = Brushes.Tomato;
-                    btnStempeln.Content = "Gehen";
-                }
-                else
-                {
-                    btnStempeln.Background = Brushes.LightGreen;
-                    btnStempeln.Content = "Kommen";
-                }
+                btnStempeln.Background = Brushes.Tomato;
+                btnStempeln.Content = "Gehen";
+                lblStatus.Content = "Arbeitet ...";
             }
-            lblStatus.Content = "Bereit";
+            else
+            {
+                btnStempeln.Background = Brushes.LightGreen;
+                btnStempeln.Content = "Kommen";
+                lblStatus.Content = "Pausiert ...";
+            }
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            if (worktimeProvider.Status == WorktimeStatus.NotWorking)
+            if (worktimeProvider.Status == WorktimeStatus.Working)
             {
-                OnClose(this, new StechuhrPanelEventArgs());
+                Stempeln(btnStempeln, null);
             }
-            else
-            {
-                lblStatus.Content = "Erst gehen vor dem schließen!";
-            }
+            OnClose(this, new StechuhrPanelEventArgs());
         }
     }
 }

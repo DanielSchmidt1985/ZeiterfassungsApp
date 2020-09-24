@@ -13,20 +13,87 @@ namespace Stechuhr
         public WorktimeItemCollection Worktimes { get; private set; }
 
         public WorktimeItem CurrentWorktime { get; private set; } = null;
-        public PauseItem CurrentPause { get; private set; } = null;
         public WorktimeStatus Status { get; private set; } = WorktimeStatus.NotWorking;
 
         public string FilePath { get; private set; }
 
-        public TimeSpan CurrentWorktimeSpan()
+        public TimeSpan TodayWorktimeSpan
         {
-            if (CurrentWorktime == null) return new TimeSpan(0);
+            get
+            {
+                WorktimeItem wt = CurrentWorktime;
+                DateTime to;
 
-            DateTime to = CurrentPause == null ? DateTime.Now : CurrentPause.StartTime;
-            TimeSpan wts = CurrentWorktime.StartTime - to;
-            CurrentWorktime.Pause.ForEach(t => wts -= t.StartTime - t.EndTime);
+                if (wt != null)
+                {
+                    JoinOnDay(wt);
+                    to = DateTime.Now;
+                }
+                else
+                {
+                    wt = Worktimes.Skip(Worktimes.Count - 2)
+                                  .ToList()
+                                  .FindLast(t => t.StartTime.Date == DateTime.Now.Date);
+                    if (wt == null) return new TimeSpan(0);
+                    to = wt.EndTime;
+                }
 
-            return wts;
+                TimeSpan wts = wt.StartTime - to;
+                wt.Pause.ForEach(t => wts -= t.StartTime - t.EndTime);
+
+                return wts;
+            }
+        }
+        public TimeSpan TodayPauseSpan
+        {
+            get
+            {
+                WorktimeItem wt = CurrentWorktime;
+
+                if (wt != null)
+                {
+                    JoinOnDay(wt);
+                }
+                else
+                {
+                    wt = Worktimes.Skip(Worktimes.Count - 2)
+                                  .ToList()
+                                  .FindLast(t => t.StartTime.Date == DateTime.Now.Date);
+                    if (wt == null) return new TimeSpan(0);
+                }
+
+                TimeSpan wts = new TimeSpan();
+                wt.Pause.ForEach(t => wts += t.EndTime - t.StartTime);
+
+                return wts;
+            }
+        }
+        public DateTime TodayWorktimeStart
+        {
+            get
+            {
+                if (CurrentWorktime != null)
+                {
+                    JoinOnDay(CurrentWorktime);
+                    return CurrentWorktime.StartTime;
+                }
+                var wt = Worktimes.Skip(Worktimes.Count - 2).ToList().FindLast(t => t.EndTime.Date == DateTime.Now.Date);
+                if (wt == null) return DateTime.MinValue;
+                return wt.StartTime;
+            }
+        }
+        public DateTime TodayWorktimeEnd
+        {
+            get
+            {
+                if (CurrentWorktime != null)
+                {
+                    return DateTime.Now;
+                }
+                var wt = Worktimes.Skip(Worktimes.Count - 2).ToList().FindLast(t => t.EndTime.Date == DateTime.Now.Date);
+                if (wt == null) return DateTime.MinValue;
+                return wt.EndTime;
+            }
         }
 
         public bool LoadWorktimeData(string FilePath)
@@ -58,15 +125,6 @@ namespace Stechuhr
                 CurrentWorktime = new WorktimeItem();
                 Status = WorktimeStatus.Working;
             }
-            else if (CurrentPause != null)
-            {
-                CurrentPause.EndTime = DateTime.Now;
-                CurrentWorktime.EndTime = CurrentPause.StartTime;
-                CurrentPause = null;
-                Worktimes.Add(CurrentWorktime);
-                CurrentWorktime = null;
-                Status = WorktimeStatus.NotWorking;
-            }
             else if (CurrentWorktime != null)
             {
                 CurrentWorktime.EndTime = DateTime.Now;
@@ -75,7 +133,7 @@ namespace Stechuhr
                 Status = WorktimeStatus.NotWorking;
 
             }
-            
+
             if (Status == WorktimeStatus.InvalidCommand)
             {
                 throw new InvalidOperationException();
@@ -97,7 +155,9 @@ namespace Stechuhr
         /// <param name="lastWt"></param>
         public void JoinOnDay(WorktimeItem lastWt)
         {
-            var toJoin = Worktimes.FindLast(t => t.StartTime.Date == lastWt.StartTime.Date && t.Equals(lastWt) == false);
+            var toJoin = Worktimes.Skip(Worktimes.Count - 2)
+                                  .ToList()
+                                  .FindLast(t => t.StartTime.Date == lastWt.StartTime.Date && t.Equals(lastWt) == false);
             if (toJoin == null) return;
             PauseItem pause = new PauseItem();
             pause.StartTime = toJoin.EndTime;
@@ -107,6 +167,14 @@ namespace Stechuhr
             lastWt.Pause.Add(pause);
             Worktimes.Remove(toJoin);
         }
+        public WorktimeItemBase SplitOnDate(WorktimeItemBase toSplit)
+        {
+            WorktimeItemBase nWt = (WorktimeItemBase)toSplit.Clone();
+            nWt.StartTime = nWt.EndTime.Date;
+            toSplit.EndTime = toSplit.StartTime.Date + new TimeSpan(23, 59, 59);
+            return nWt;
+        }
+
 
         private bool CheckDateSwitches()
         {
@@ -126,14 +194,7 @@ namespace Stechuhr
             return false;
         }
 
-        public WorktimeItemBase SplitOnDate(WorktimeItemBase toSplit)
-        {
-            WorktimeItemBase nWt = (WorktimeItemBase)toSplit.Clone();
-            nWt.StartTime = nWt.EndTime.Date;
-            toSplit.EndTime = toSplit.StartTime.Date + new TimeSpan(23, 59, 59);
-            return nWt;
-        }
 
-        
+
     }
 }

@@ -13,21 +13,37 @@ namespace Stechuhr.UI.WindowsForms
 {
     public partial class frmStechuhr : Form
     {
-        private bool AllowClosing { get; set; }
+        private bool AllowClosing { get; set; } = false;
 
         public WorktimeProvider WorktimeProvider { get; }
 
         public frmStechuhr(WorktimeProvider worktimeProvider)
         {
             InitializeComponent();
-        
+
+            this.MaximizeBox = false;
+
             WorktimeProvider = worktimeProvider;
             stechuhrPanel.InitializeWorktimeProvider(worktimeProvider);
 
+            FormClosing += FrmStechuhr_FormClosing;
+
             // StechuhrPanel raised Closing
-            this.stechuhrPanel.OnClose += (s, a) => Close();
+            this.stechuhrPanel.OnClose += StechuhrPanel_OnClose;
         }
 
+        private void FrmStechuhr_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (AllowClosing == false)
+            {
+                e.Cancel = true;
+            }
+        }
 
+        private void StechuhrPanel_OnClose(object sender, StechuhrPanelEventArgs args)
+        {
+            AllowClosing = true;
+            Close();
+        }
     }
 }

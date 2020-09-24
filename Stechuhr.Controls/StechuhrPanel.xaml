@@ -25,8 +25,12 @@
         <Label Name="lblUhrzeit" Grid.Column="1" Grid.Row="0" FontFamily="Verdana" FontSize="16" Content=""/>
         <Label Grid.Column="0" Grid.Row="1" FontFamily="Verdana" FontSize="16">Arbeitsbegin:</Label>
         <Label Name="lblStartWorking" Grid.Column="1" Grid.Row="1" FontFamily="Verdana" FontSize="16" Content=""/>
-        <Label Name="lblWorkingTime" Grid.Column="3" Grid.Row="1" FontFamily="Verdana" FontSize="16" Content=""/>
+        <Label Grid.Column="0" Grid.Row="2" FontFamily="Verdana" FontSize="16">Arbeitsende:</Label>
+        <Label Name="lblEndWorking" Grid.Column="1" Grid.Row="2" FontFamily="Verdana" FontSize="16" Content=""/>
         <Label Grid.Column="2" Grid.Row="1" FontFamily="Verdana" FontSize="16">Arbeitszeit:</Label>
+        <Label Name="lblWorkingTime" Grid.Column="3" Grid.Row="1" FontFamily="Verdana" FontSize="16" Content=""/>
+        <Label Grid.Column="2" Grid.Row="2" FontFamily="Verdana" FontSize="16">Pausenzeit:</Label>
+        <Label Name="lblPauseTime" Grid.Column="3" Grid.Row="2" FontFamily="Verdana" FontSize="16" Content=""/>
         <Button Name="btnStempeln" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="5" FontFamily="Verdana" FontSize="24" FontWeight="Bold" Background="#FF69C769" Click="Stempeln">Einstempeln</Button>
         <Button Name="btnExit" Grid.Column="3" Grid.Row="4"  Margin="5,40,5,5" FontFamily="Verdana" FontSize="16" Click="btnExit_Click">Beenden</Button>
         <Label Name="lblStatus" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" FontFamily="Verdana" FontSize="11">Bereit</Label>
