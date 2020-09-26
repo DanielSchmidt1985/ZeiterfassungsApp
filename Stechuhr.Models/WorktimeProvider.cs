@@ -181,7 +181,6 @@ namespace Stechuhr
             return nWt;
         }
 
-
         private bool CheckDateSwitches()
         {
             WorktimeItem lastWt = Worktimes.Last();
@@ -199,8 +198,6 @@ namespace Stechuhr
 
             return false;
         }
-
-
 
     }
 }

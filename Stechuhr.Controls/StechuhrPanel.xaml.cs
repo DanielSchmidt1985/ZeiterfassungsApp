@@ -24,13 +24,13 @@ namespace Stechuhr.Controls
             lblUhrzeit.Content = DateTime.Now.ToLongTimeString();
 
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += Timer_Tick;
+            timer.Tick += Timer_RefreshTimes;
             timer.Start();
 
             RefreshLayout(btnStempeln, WorktimeStatus.NotWorking);
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_RefreshTimes(object sender, EventArgs e)
         {
             lblUhrzeit.Content = DateTime.Now.ToLongTimeString();
 
