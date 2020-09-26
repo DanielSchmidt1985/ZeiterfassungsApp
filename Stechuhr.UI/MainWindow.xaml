@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.UI"
         mc:Ignorable="d"
-        Title="DS - Stechuhr" WindowStartupLocation="CenterScreen" Height="325" Width="600" Icon="/Stechuhr.png" ResizeMode="NoResize">
+        Title="DS - Stechuhr" WindowStartupLocation="CenterScreen" Height="325" Width="600" ResizeMode="NoResize">
 
     <Grid>
 
