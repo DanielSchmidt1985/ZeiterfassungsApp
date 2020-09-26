@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Stechuhr.Models;
+using Stechuhr.Views;
 using System;
 using System.IO;
 using System.Linq;
@@ -96,11 +97,11 @@ namespace Stechuhr
             }
         }
 
-        public bool LoadWorktimeData(string FilePath)
+        public bool LoadWorktimeData()
         {
             try
             {
-                this.FilePath = FilePath;
+                this.FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Stechuhr", "WorktimeData.json");
                 Worktimes = JsonConvert.DeserializeObject<WorktimeItemCollection>(File.ReadAllText(FilePath, Encoding.Default));
                 if (Worktimes == null) Worktimes = new WorktimeItemCollection();
                 return true;
@@ -116,6 +117,7 @@ namespace Stechuhr
             JsonSerializerSettings jsonSerializerOptions = new JsonSerializerSettings();
             try
             {
+                Worktimes = Worktimes.OrderBy(t => t.Date).ToWorkitemCollection();
                 File.Copy(FilePath, Path.Combine(Path.GetDirectoryName(FilePath), "Backup-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".bak"), true);
             }
             catch (Exception)
@@ -125,6 +127,8 @@ namespace Stechuhr
 
         public WorktimeStatus Stamping()
         {
+            LoadWorktimeData();
+
             Status = WorktimeStatus.InvalidCommand;
             if (CurrentWorktime == null)
             {
@@ -137,7 +141,6 @@ namespace Stechuhr
                 Worktimes.Add(CurrentWorktime);
                 CurrentWorktime = null;
                 Status = WorktimeStatus.NotWorking;
-
             }
 
             if (Status == WorktimeStatus.InvalidCommand)
@@ -152,6 +155,7 @@ namespace Stechuhr
                 JoinOnDay(lastWt);
             }
 
+            SaveWorktimeData();
             return Status;
         }
 

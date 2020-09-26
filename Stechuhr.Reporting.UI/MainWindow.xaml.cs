@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Stechuhr.Settings;
+using Stechuhr.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,17 +22,35 @@ namespace Stechuhr.Reporting.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<DayView> Days;
+
+        private WorktimeProvider wtProvider;
+        private DayViewProvider dvProvider;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            MonthPicker.DisplayModeChanged += MonthPicker_DisplayModeChanged;
-            //MonthPicker.SelectedDate = DateTime.Today;
+            wtProvider = new WorktimeProvider();
+            dvProvider = new DayViewProvider(wtProvider, new WorktimeSettings());
+
+            MonthPicker.SelectedDate = DateTime.Today;
+            MonthPicker.SelectedDatesChanged += UpdateDataGrid;
+            MonthPicker.DisplayDateChanged += (s, e) => MonthPicker.SelectedDate = e.AddedDate; ;
+
+            UpdateDataGrid(null, null);
         }
 
-        private void MonthPicker_DisplayModeChanged(object sender, CalendarModeChangedEventArgs e)
+        private void UpdateDataGrid(object sender, SelectionChangedEventArgs e)
         {
-            MonthPicker.DisplayMode = CalendarMode.Month;
+            Days = dvProvider.CreateMonthView(MonthPicker.SelectedDate.Value);
+            Days.ForEach(t => t.PropertyChanged += (s, e) =>
+            {
+                dgDayView.ItemsSource = null;
+                dgDayView.ItemsSource = Days;
+            });
+            dgDayView.ItemsSource = Days;
         }
+
     }
 }

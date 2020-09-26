@@ -8,5 +8,6 @@ namespace Stechuhr.Models
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public TimeSpan TimeSpan { get; }
     }
 }

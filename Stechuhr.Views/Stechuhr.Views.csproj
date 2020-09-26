@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stechuhr.Models\Stechuhr.Models.csproj" />
+    <ProjectReference Include="..\Stechuhr.Settings\Stechuhr.Settings.csproj" />
+  </ItemGroup>
+
+</Project>

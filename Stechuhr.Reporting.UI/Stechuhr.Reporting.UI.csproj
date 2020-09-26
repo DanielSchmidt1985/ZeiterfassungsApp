@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stechuhr.Models\Stechuhr.Models.csproj" />
+    <ProjectReference Include="..\Stechuhr.Views\Stechuhr.Views.csproj" />
   </ItemGroup>
 
 </Project>

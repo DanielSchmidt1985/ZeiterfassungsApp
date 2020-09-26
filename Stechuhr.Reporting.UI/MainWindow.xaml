@@ -5,29 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.Reporting.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="800">
 
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="180">
-            </RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Calendar Name="MonthPicker" DisplayMode="Year" SelectionMode="None"  />
-        <DataGrid Name="dgUsers" Grid.Row="1" AutoGenerateColumns="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+
+        <Calendar Name="MonthPicker" Grid.RowSpan="5" HorizontalAlignment="Left" SelectionMode="SingleDate"  />
+        <DataGrid Name="dgDayView" Grid.Row="5" Grid.ColumnSpan="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Datum" IsReadOnly="True" Binding="{Binding sDate}" />
+                <DataGridTextColumn Header="Kommen" Width="80" Binding="{Binding sComming}" />
+                <DataGridTextColumn Header="Gehen" Width="80" Binding="{Binding sGoing}" />
+                <DataGridTextColumn Header="Arbeitszeit" IsReadOnly="True" Width="80" Binding="{Binding sWorkingTime}" />
+                <DataGridTextColumn Header="Pausenzeit" Width="80" Binding="{Binding sPauseTime}" />
+                <DataGridTextColumn Header="Überstunden" IsReadOnly="True" Width="80" Binding="{Binding sOvertime}" />
+                <DataGridTextColumn Header="Type" Binding="{Binding sType}" />
 
-                <DataGridTemplateColumn Header="Birthday">
+                <!--<DataGridTemplateColumn Header="Birthday">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
 
             </DataGrid.Columns>
         </DataGrid>
