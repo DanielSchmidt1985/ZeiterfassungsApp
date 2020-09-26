@@ -182,12 +182,38 @@ namespace Stechuhr.Views
             {
                 if (wtItem == null)
                 {
-                    return WorktimeSettings.RegularWorkingDays.Any(t => Date.DayOfWeek == t) ?
-                               new TimeSpan() - WorktimeSettings.RegularWorkingTime :
-                               new TimeSpan();
+                    TimeSpan ret = new TimeSpan();
+                    if (!WorktimeSettings.RegularWorkingDays.Any(t => Date.DayOfWeek == t)) return ret;
+                    if (Date >= DateTime.Today) return ret;
+                    return ret - WorktimeSettings.RegularWorkingTime;
+                }
+                TimeSpan BaseTime;
+                long rwt = WorktimeSettings.RegularWorkingTime.Ticks;
+                switch (wtItem.WorktimeType)
+                {
+                    case WorktimeType.R:
+                        BaseTime = new TimeSpan();
+                        break;
+                    case WorktimeType.U:
+                        BaseTime = new TimeSpan(rwt);
+                        break;
+                    case WorktimeType.UH:
+                        BaseTime = new TimeSpan(rwt / 2);
+                        break;
+                    case WorktimeType.K:
+                        BaseTime = new TimeSpan(rwt);
+                        break;
+                    case WorktimeType.KA:
+                        BaseTime = new TimeSpan(rwt);
+                        break;
+                    case WorktimeType.KAH:
+                        BaseTime = new TimeSpan(rwt / 2);
+                        break;
+                    default:
+                        break;
                 }
                 return WorktimeSettings.RegularWorkingDays.Any(t => Date.DayOfWeek == t) ?
-                            WorkingTime - WorktimeSettings.RegularWorkingTime :
+                            WorkingTime - WorktimeSettings.RegularWorkingTime + BaseTime :
                             WorkingTime;
             }
         }

@@ -35,22 +35,29 @@ namespace Stechuhr.Reporting.UI
             dvProvider = new DayViewProvider(wtProvider, new WorktimeSettings());
 
             MonthPicker.SelectedDate = DateTime.Today;
-            MonthPicker.SelectedDatesChanged += UpdateDataGrid;
-            MonthPicker.DisplayDateChanged += (s, e) => MonthPicker.SelectedDate = e.AddedDate; ;
+            MonthPicker.SelectedDatesChanged += MonthPicker_SelectedDatesChanged;
+            MonthPicker.DisplayDateChanged += (s, e) => MonthPicker.SelectedDate = e.AddedDate;
 
-            UpdateDataGrid(null, null);
+            MonthPicker_SelectedDatesChanged(null, null);
         }
 
-        private void UpdateDataGrid(object sender, SelectionChangedEventArgs e)
+        private void MonthPicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             Days = dvProvider.CreateMonthView(MonthPicker.SelectedDate.Value);
-            Days.ForEach(t => t.PropertyChanged += (s, e) =>
-            {
-                dgDayView.ItemsSource = null;
-                dgDayView.ItemsSource = Days;
-            });
-            dgDayView.ItemsSource = Days;
+            Days.ForEach(t => t.PropertyChanged += (s, e) => Update());
+            Update();
         }
 
+        private void Update()
+        {
+            TimeSpan otMonth = dvProvider.GetOvertime(Days);
+            TimeSpan otTotal = dvProvider.GetOvertime(dvProvider.CreateOverallView());
+
+            lblOtMonth.Content = otMonth.Format();
+            lblOtOverall.Content = otTotal.Format();
+
+            dgDayView.ItemsSource = null;
+            dgDayView.ItemsSource = Days;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Stechuhr.Views
 {
@@ -46,6 +47,40 @@ namespace Stechuhr.Views
             }
 
             return days;
+        }
+
+        public List<DayView> CreateOverallView()
+        {
+            // Load stamped worktime data
+            WorktimeProvider.LoadWorktimeData();
+
+            if (!WorktimeProvider.Worktimes.Any()) return new List<DayView>();
+
+            DateTime StartDate = WorktimeProvider.Worktimes.First().Date;
+            int numDays = Convert.ToInt32((DateTime.Today - StartDate).TotalDays); 
+            // Make a empty DayView for each day
+            List<DayView> days = new List<DayView>();
+            for (int i = 0; i < numDays; i++)
+            {
+                days.Add(new DayView(WorktimeProvider, WorktimeSettings, StartDate.AddDays(i)));
+            }
+
+            // Get stamped data and sort in 
+            foreach (WorktimeItem item in WorktimeProvider.Worktimes)
+            {
+                DayView day = days.Find(t => t.Date == item.Date);
+                if (day != null)
+                {
+                    day.FromWorktimeItem(item);
+                }
+            }
+
+            return days;
+        }
+
+        public TimeSpan GetOvertime(List<DayView> days)
+        {
+            return new TimeSpan(0, Convert.ToInt32(days.Sum(t => t.Overtime.TotalMinutes)), 0);
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.Reporting.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="800">
+        Title="DS - Arbeitszeit Report" Height="900" Width="800" WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
 
@@ -20,12 +20,21 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         
-
         <Calendar Name="MonthPicker" Grid.RowSpan="5" HorizontalAlignment="Left" SelectionMode="SingleDate"  />
-        <DataGrid Name="dgDayView" Grid.Row="5" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+
+        <Label Grid.Row="0" Grid.Column="1">Überstunden Monat</Label>
+        <Label Grid.Row="1" Grid.Column="1">Überstunden Total</Label>
+        <Label Grid.Row="3" Grid.Column="1"></Label>
+
+        <Label Name="lblOtMonth" Grid.Row="0" Grid.Column="2"></Label>
+        <Label Name="lblOtOverall" Grid.Row="1" Grid.Column="2"></Label>
+        <Label Grid.Row="3" Grid.Column="2"></Label>
+
+        <DataGrid Name="dgDayView" Grid.Row="5" Grid.ColumnSpan="3" AutoGenerateColumns="False">
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header="Datum" IsReadOnly="True" Binding="{Binding sDate}" />
