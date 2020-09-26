@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
+using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Stechuhr.UI
@@ -23,6 +11,10 @@ namespace Stechuhr.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private System.Windows.Forms.NotifyIcon notifyIcon = null;
+
+        private bool AllowClosing = false;
+
         public WorktimeProvider worktimeProvider { get; private set; }
         public DispatcherTimer timer = new DispatcherTimer();
 
@@ -30,12 +22,48 @@ namespace Stechuhr.UI
         {
             InitializeComponent();
 
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.MouseClick += (s, e) =>
+            {
+                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    Show();
+                }
+                else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                {
+                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+                    var mnuExit = contextMenu.Items.Add("Beenden");
+                    contextMenu.Show(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
+                    mnuExit.Click += (s, e) =>
+                    {
+                        notifyIcon.Dispose();
+                        AllowClosing = true;
+                        Close();
+                    };
+                }
+            };
+            notifyIcon.Icon = new System.Drawing.Icon("Stechuhr.ico");
+            
+            
             Closing += (s, e) =>
             {
-                if (worktimeProvider.Status == WorktimeStatus.Working)
+                if (!AllowClosing)
                 {
-                    Stempeln(btnStempeln, null);
+                    e.Cancel = true;
+                    Hide();
                 }
+                else
+                {
+                    if (worktimeProvider.Status == WorktimeStatus.Working)
+                    {
+                        Stempeln(btnStempeln, null);
+                    }
+                }
+            };
+
+            Loaded += (s, e) =>
+            {
+                notifyIcon.Visible = true;
             };
 
             worktimeProvider = new WorktimeProvider();
@@ -96,9 +124,5 @@ namespace Stechuhr.UI
             }
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

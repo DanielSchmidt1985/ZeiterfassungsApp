@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.UI"
         mc:Ignorable="d"
-        Title="DS - Stechuhr" WindowStartupLocation="CenterScreen" Height="325" Width="600">
+        Title="DS - Stechuhr" WindowStartupLocation="CenterScreen" Height="325" Width="600" Icon="/Stechuhr.png" ResizeMode="NoResize">
 
     <Grid>
 
@@ -21,7 +21,7 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
             <RowDefinition />
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
@@ -35,10 +35,9 @@
         <Label Name="lblWorkingTime" Grid.Column="3" Grid.Row="1" FontSize="16" Content=""/>
         <Label Grid.Column="2" Grid.Row="2" FontSize="16">Pausenzeit:</Label>
         <Label Name="lblPauseTime" Grid.Column="3" Grid.Row="2" FontSize="16" Content=""/>
-        <Button Name="btnStempeln" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="5" FontSize="24" FontWeight="Bold" Background="#FF69C769" Click="Stempeln">Einstempeln</Button>
-        <Button Name="btnExit" Grid.Column="3" Grid.Row="4"  Margin="5,40,5,10" FontSize="16" Click="btnExit_Click">Beenden</Button>
+        <Button Name="btnStempeln" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="5,5,5,5" FontSize="24" FontWeight="Bold" Background="#FF69C769" Click="Stempeln">Einstempeln</Button>
 
-        <StatusBar Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Margin="5" FontSize="16" BorderBrush="DarkGray" BorderThickness="0.5">
+        <StatusBar Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Margin="5,5,5,5" FontSize="16" BorderBrush="DarkGray" BorderThickness="0.5">
             <StatusBarItem>
                 <TextBlock Name="lblStatus">Pausiert ...</TextBlock>
             </StatusBarItem>
