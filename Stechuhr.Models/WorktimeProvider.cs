@@ -119,10 +119,11 @@ namespace Stechuhr
             {
                 Worktimes = Worktimes.OrderBy(t => t.Date).ToWorkitemCollection();
                 File.Copy(FilePath, Path.Combine(Path.GetDirectoryName(FilePath), "Backup-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".bak"), true);
+                Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
+                File.WriteAllText(FilePath, JsonConvert.SerializeObject(Worktimes, jsonSerializerOptions));
             }
             catch (Exception)
             { }
-            File.WriteAllText(FilePath, JsonConvert.SerializeObject(Worktimes, jsonSerializerOptions));
         }
 
         public WorktimeStatus Stamping()
@@ -153,9 +154,9 @@ namespace Stechuhr
                 WorktimeItem lastWt = Worktimes.Last();
                 CheckDateSwitches();
                 JoinOnDay(lastWt);
+                SaveWorktimeData();
             }
 
-            SaveWorktimeData();
             return Status;
         }
 
@@ -171,11 +172,15 @@ namespace Stechuhr
             if (toJoin == null) return;
             PauseItem pause = new PauseItem();
             pause.StartTime = toJoin.EndTime;
-            pause.EndTime = lastWt.StartTime;
+            pause.EndTime = CurrentWorktime == null ? lastWt.EndTime : DateTime.Now;
             lastWt.StartTime = toJoin.StartTime;
-            lastWt.Pause.AddRange(toJoin.Pause);
-            lastWt.Pause.Add(pause);
+            if (CurrentWorktime != null)
+            {
+                lastWt.Pause.AddRange(toJoin.Pause);
+                lastWt.Pause.Add(pause);
+            }
             Worktimes.Remove(toJoin);
+
         }
         public WorktimeItemBase SplitOnDate(WorktimeItemBase toSplit)
         {
