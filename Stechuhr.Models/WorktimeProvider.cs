@@ -118,8 +118,11 @@ namespace Stechuhr
             try
             {
                 Worktimes = Worktimes.OrderBy(t => t.Date).ToWorkitemCollection();
-                File.Copy(FilePath, Path.Combine(Path.GetDirectoryName(FilePath), "Backup-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".bak"), true);
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
+                if (File.Exists(FilePath))
+                {
+                    File.Copy(FilePath, Path.Combine(Path.GetDirectoryName(FilePath), "Backup-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".bak"), true);
+                }
                 File.WriteAllText(FilePath, JsonConvert.SerializeObject(Worktimes, jsonSerializerOptions));
             }
             catch (Exception)
