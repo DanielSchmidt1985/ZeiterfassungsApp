@@ -141,23 +141,20 @@ namespace Stechuhr
             }
             else if (CurrentWorktime != null)
             {
-                CurrentWorktime.EndTime = DateTime.Now;
-                Worktimes.Add(CurrentWorktime);
+                WorktimeItem wt = new WorktimeItem();
+                wt.StartTime = CurrentWorktime.StartTime;
+                wt.EndTime = DateTime.Now;
+                Worktimes.Add(wt);
                 CurrentWorktime = null;
                 Status = WorktimeStatus.NotWorking;
+                CheckDateSwitches();
+                JoinOnDay(wt);
+                SaveWorktimeData();
             }
 
             if (Status == WorktimeStatus.InvalidCommand)
             {
                 throw new InvalidOperationException();
-            }
-
-            if (Status == WorktimeStatus.NotWorking)
-            {
-                WorktimeItem lastWt = Worktimes.Last();
-                CheckDateSwitches();
-                JoinOnDay(lastWt);
-                SaveWorktimeData();
             }
 
             return Status;
@@ -175,15 +172,11 @@ namespace Stechuhr
             if (toJoin == null) return;
             PauseItem pause = new PauseItem();
             pause.StartTime = toJoin.EndTime;
-            pause.EndTime = CurrentWorktime == null ? lastWt.EndTime : DateTime.Now;
+            pause.EndTime = lastWt.EndTime == DateTime.MinValue ? DateTime.Now : lastWt.EndTime;
             lastWt.StartTime = toJoin.StartTime;
-            if (CurrentWorktime != null)
-            {
-                lastWt.Pause.AddRange(toJoin.Pause);
-                lastWt.Pause.Add(pause);
-            }
+            lastWt.Pause.AddRange(toJoin.Pause);
+            lastWt.Pause.Add(pause);
             Worktimes.Remove(toJoin);
-
         }
         public WorktimeItemBase SplitOnDate(WorktimeItemBase toSplit)
         {
