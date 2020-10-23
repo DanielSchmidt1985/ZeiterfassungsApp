@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.Reporting.UI"
         mc:Ignorable="d"
-        Title="DS - Arbeitszeit Report" Height="900" Width="800" WindowStartupLocation="CenterScreen">
+        Title="DS - Arbeitszeit Report (v2.0)" Height="900" Width="800" WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
 

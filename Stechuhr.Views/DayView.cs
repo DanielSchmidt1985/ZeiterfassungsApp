@@ -1,6 +1,7 @@
 ﻿using Stechuhr.Models;
 using Stechuhr.Settings;
 using System;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -220,6 +221,7 @@ namespace Stechuhr.Views
         public string sOvertime => Overtime.Format();
 
         private WorktimeItem wtItem = null;
+        public bool isWtItem { get => wtItem != null; }
 
         public DayView(WorktimeProvider WorktimeProvider, WorktimeSettings settings, DateTime Date)
         {

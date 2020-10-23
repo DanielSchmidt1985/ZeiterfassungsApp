@@ -27,6 +27,7 @@ namespace Stechuhr
 
                 if (wt != null)
                 {
+                    wt = CurrentWorktime.Clone() as WorktimeItem;
                     JoinOnDay(wt);
                     to = DateTime.Now;
                 }
@@ -53,6 +54,7 @@ namespace Stechuhr
 
                 if (wt != null)
                 {
+                    wt = CurrentWorktime.Clone() as WorktimeItem;
                     JoinOnDay(wt);
                 }
                 else
@@ -73,12 +75,14 @@ namespace Stechuhr
         {
             get
             {
+                WorktimeItem wt;
                 if (CurrentWorktime != null)
                 {
-                    JoinOnDay(CurrentWorktime);
-                    return CurrentWorktime.StartTime;
+                    wt = CurrentWorktime.Clone() as WorktimeItem;
+                    JoinOnDay(wt);
+                    return wt.StartTime;
                 }
-                var wt = Worktimes.Skip(Worktimes.Count - 2).ToList().FindLast(t => t.EndTime.Date == DateTime.Now.Date);
+                wt = Worktimes.Skip(Worktimes.Count - 2).ToList().FindLast(t => t.EndTime.Date == DateTime.Now.Date);
                 if (wt == null) return DateTime.MinValue;
                 return wt.StartTime;
             }
@@ -172,11 +176,11 @@ namespace Stechuhr
             if (toJoin == null) return;
             PauseItem pause = new PauseItem();
             pause.StartTime = toJoin.EndTime;
-            pause.EndTime = lastWt.EndTime == DateTime.MinValue ? DateTime.Now : lastWt.EndTime;
+            pause.EndTime = lastWt.StartTime;
             lastWt.StartTime = toJoin.StartTime;
             lastWt.Pause.AddRange(toJoin.Pause);
             lastWt.Pause.Add(pause);
-            Worktimes.Remove(toJoin);
+            if (CurrentWorktime == null) Worktimes.Remove(toJoin);
         }
         public WorktimeItemBase SplitOnDate(WorktimeItemBase toSplit)
         {

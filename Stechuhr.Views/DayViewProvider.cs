@@ -57,7 +57,7 @@ namespace Stechuhr.Views
             if (!WorktimeProvider.Worktimes.Any()) return new List<DayView>();
 
             DateTime StartDate = WorktimeProvider.Worktimes.First().Date;
-            int numDays = Convert.ToInt32((DateTime.Today - StartDate).TotalDays); 
+            int numDays = Convert.ToInt32((DateTime.Today - StartDate).TotalDays) + 1; 
             // Make a empty DayView for each day
             List<DayView> days = new List<DayView>();
             for (int i = 0; i < numDays; i++)
@@ -80,6 +80,12 @@ namespace Stechuhr.Views
 
         public TimeSpan GetOvertime(List<DayView> days)
         {
+            DayView today = days.Where(_ => _.Date == DateTime.Today).FirstOrDefault();
+            days = days.Where(_ => _.Date < DateTime.Today).ToList();
+            if (today != null && today.isWtItem)
+            {
+                days.Add(today);
+            }
             return new TimeSpan(0, Convert.ToInt32(days.Sum(t => t.Overtime.TotalMinutes)), 0);
         }
     }

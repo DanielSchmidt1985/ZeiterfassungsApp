@@ -25,7 +25,7 @@ namespace Stechuhr.Views
         {
             string sign = ts.TotalMinutes < 0 ? "-" : "";
             if (ts.TotalMinutes == 0) return "";
-            return string.Format("{0}{1:D2}:{2:D2}", sign, Math.Abs(ts.Hours), Math.Abs(ts.Minutes));
+            return string.Format("{0}{1:D2}:{2:D2}", sign, Math.Abs(ts.Hours) + 24 * Math.Abs(ts.Days), Math.Abs(ts.Minutes));
         }
     }
 }
