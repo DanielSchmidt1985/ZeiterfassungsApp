@@ -205,11 +205,13 @@ namespace Stechuhr.Views
                         BaseTime = new TimeSpan(rwt);
                         break;
                     case WorktimeType.KA:
+                    case WorktimeType.F:
                         BaseTime = new TimeSpan(rwt);
                         break;
                     case WorktimeType.KAH:
                         BaseTime = new TimeSpan(rwt / 2);
                         break;
+
                     default:
                         break;
                 }

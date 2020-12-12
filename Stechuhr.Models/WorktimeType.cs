@@ -14,6 +14,7 @@
         KA = 16,
         /// <summary>Kurzarbeit 0,5 Tage</summary>
         KAH = 32,
+        F = 64,
     }
 
 
