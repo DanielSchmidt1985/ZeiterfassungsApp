@@ -8,8 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Bearbeiten_24.jpg" />
+    <None Remove="data\Bearbeiten_24.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Stechuhr.Models\Stechuhr.Models.csproj" />
     <ProjectReference Include="..\Stechuhr.Views\Stechuhr.Views.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="data\Bearbeiten_24.jpg" />
   </ItemGroup>
 
 </Project>

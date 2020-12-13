@@ -1,7 +1,9 @@
-﻿using Stechuhr.Settings;
+﻿using Newtonsoft.Json;
+using Stechuhr.Settings;
 using Stechuhr.Views;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Xps;
 
 namespace Stechuhr.Reporting.UI
 {
@@ -27,6 +30,8 @@ namespace Stechuhr.Reporting.UI
         private WorktimeProvider wtProvider;
         private DayViewProvider dvProvider;
 
+        private DayView SelectedDay = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +43,18 @@ namespace Stechuhr.Reporting.UI
             MonthPicker.SelectedDatesChanged += MonthPicker_SelectedDatesChanged;
             MonthPicker.DisplayDateChanged += (s, e) => MonthPicker.SelectedDate = e.AddedDate;
 
+            dgDayView.SelectionChanged += DgDayView_SelectionChanged;
+
             MonthPicker_SelectedDatesChanged(null, null);
+        }
+
+        private void DgDayView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedDay = null;
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is DayView)
+            {
+                SelectedDay = e.AddedItems[0] as DayView;
+            }
         }
 
         private void MonthPicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -58,6 +74,42 @@ namespace Stechuhr.Reporting.UI
 
             dgDayView.ItemsSource = null;
             dgDayView.ItemsSource = Days;
+        }
+
+        private void mnuEditDay_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (SelectedDay == null) return;
+            WorktimeItem nItem = new WorktimeItem();
+            nItem.StartTime = DateTime.Parse(SelectedDay.Date.ToString());
+            nItem.EndTime = nItem.StartTime;
+            WorktimeItem wtItem = SelectedDay.wtItem == null ? nItem : SelectedDay.wtItem;
+            JsonSerializerSettings jsonSerializerOptions = new JsonSerializerSettings() { Formatting = Formatting.Indented };
+            string Data = JsonConvert.SerializeObject(wtItem, jsonSerializerOptions);
+            TextEditor txtEditor = new TextEditor();
+            txtEditor.Text = Data;
+            txtEditor.ShowDialog();
+            Data = txtEditor.Text;
+            try
+            {
+                int index = wtProvider.Worktimes.FindIndex(t => t.id == wtItem.id);
+                wtItem = JsonConvert.DeserializeObject<WorktimeItem>(Data);
+                if (index == -1)
+                {
+                    wtProvider.Worktimes.Add(wtItem);
+                }
+                else
+                {
+                    wtProvider.Worktimes[index] = wtItem;
+                }
+                wtProvider.SaveWorktimeData();
+                SelectedDay.FromWorktimeItem(wtItem);
+                SelectedDay.NotifyPropertyChanged();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Der Text konnte nicht Deserialisiert werden.");
+                throw;
+            }
         }
     }
 }

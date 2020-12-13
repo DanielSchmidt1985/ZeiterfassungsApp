@@ -24,7 +24,7 @@ namespace Stechuhr
             get 
             {
                 TimeSpan ts = new TimeSpan();
-                Pause.ForEach(t => ts += t.TimeSpan);
+                Pause.ForEach(t => ts += t.WorkTimeSpan);
                 return ts + PauseTime;
             }
         }

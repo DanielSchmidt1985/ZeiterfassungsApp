@@ -1,0 +1,28 @@
+﻿<Window x:Class="Stechuhr.Reporting.UI.TextEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stechuhr.Reporting.UI"
+        mc:Ignorable="d"
+        Title="TextEditor" Height="640" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="399*"/>
+            <ColumnDefinition Width="401*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Name="txt" Grid.Column="0" Grid.ColumnSpan="2" 
+                 Margin="5,5,0,0" Text="" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 FontFamily="Consolas" FontSize="12" AcceptsReturn="True" AcceptsTab="True" Width="785" Height="569"/>
+        <Button Name="cmdAbbrechen" Grid.Row="1" Grid.Column="0" Margin="5,5,286,5" Content="Abbrechen" Click="cmdAbbrechen_Click"/>
+        <Button Name="cmdOK" Grid.Row="1" Grid.Column="1" Margin="274,5,10,5" Content="OK" Click="cmdOK_Click"/>
+
+    </Grid>
+</Window>

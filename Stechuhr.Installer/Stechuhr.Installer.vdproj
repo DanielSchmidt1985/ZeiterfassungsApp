@@ -274,15 +274,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Stechuhr.Installer"
-        "ProductCode" = "8:{7CEF90FA-3C30-4F82-9130-DC420B246B09}"
-        "PackageCode" = "8:{90A60145-7C72-4E86-9239-B3B033738400}"
+        "ProductCode" = "8:{DFA14E3C-490E-4453-A3D6-F00120DEC1BE}"
+        "PackageCode" = "8:{E3268588-500A-4C76-81E2-2A309A5EB997}"
         "UpgradeCode" = "8:{8A863C2E-EC2B-475D-BA41-B1DDEEA788E9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0"
+        "ProductVersion" = "8:3.0"
         "Manufacturer" = "8:DS"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -436,7 +436,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_12BE55385C084435954C198A59C5314B"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Finished"
+                    "DisplayName" = "8:Fertig"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -486,7 +486,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2E0FE177A95F44F79BFF7D7301FEC1CB"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Confirm Installation"
+                    "DisplayName" = "8:Installation bestätigen"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
@@ -508,7 +508,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_4DDC3D3513AB4D239CBF63086F4D8E6D"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
+                    "DisplayName" = "8:Willkommen"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"
@@ -556,7 +556,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_E5CBBBE012174B6C9858EFE07E349E42"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installation Folder"
+                    "DisplayName" = "8:Installationsordner"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
@@ -600,7 +600,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_EADDB31B61C34EEB836BE5E7DC2CE529"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Progress"
+                    "DisplayName" = "8:Status"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
@@ -644,7 +644,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ECE313B292444933B23D89E57138C7B4"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Finished"
+                    "DisplayName" = "8:Fertig"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
@@ -681,7 +681,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_0D2CAE262E884F35A001B98596B51C60"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Confirm Installation"
+                    "DisplayName" = "8:Installation bestätigen"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
@@ -703,7 +703,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2963A39A3EF44328B505E2983D83C14D"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installation Folder"
+                    "DisplayName" = "8:Installationsordner"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"
@@ -725,7 +725,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_630DE427C8B7432D99F6BFFCB3191866"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
+                    "DisplayName" = "8:Willkommen"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"
@@ -782,7 +782,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_1A8BCE1CCDC74B27975F5217FF4E2AB1"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Progress"
+                    "DisplayName" = "8:Status"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
@@ -824,7 +824,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_AA83003B13104EBE8BA354312049FB35"
             {
-            "SourcePath" = "8:..\\Stechuhr.UI\\obj\\Debug\\netcoreapp3.1\\Stechuhr.UI.exe"
+            "SourcePath" = "8:..\\Stechuhr.UI\\obj\\Debug\\netcoreapp3.1\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_78FF83EED77C42FFB88DBF9E4CBF6DEF"
@@ -852,7 +852,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FD847E866A394839A3A70627E0DEDAEE"
             {
-            "SourcePath" = "8:..\\Stechuhr.Reporting.UI\\obj\\Debug\\netcoreapp3.1\\Stechuhr.Reporting.UI.exe"
+            "SourcePath" = "8:..\\Stechuhr.Reporting.UI\\obj\\Debug\\netcoreapp3.1\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_78FF83EED77C42FFB88DBF9E4CBF6DEF"

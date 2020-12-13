@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stechuhr.Reporting.UI"
         mc:Ignorable="d"
-        Title="DS - Arbeitszeit Report (v2.0)" Height="900" Width="800" WindowStartupLocation="CenterScreen">
+        Title="DS - Arbeitszeit Report (v3.0)" Height="900" Width="800" WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
 
@@ -23,7 +23,7 @@
             <ColumnDefinition Width="180"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <Calendar Name="MonthPicker" Grid.RowSpan="5" HorizontalAlignment="Left" SelectionMode="SingleDate"  />
 
         <Label Grid.Row="0" Grid.Column="1">Überstunden Monat</Label>
@@ -36,7 +36,6 @@
 
         <DataGrid Name="dgDayView" Grid.Row="5" Grid.ColumnSpan="3" AutoGenerateColumns="False">
             <DataGrid.Columns>
-
                 <DataGridTextColumn Header="Datum" IsReadOnly="True" Binding="{Binding sDate}" />
                 <DataGridTextColumn Header="Kommen" Width="80" Binding="{Binding sComming}" />
                 <DataGridTextColumn Header="Gehen" Width="80" Binding="{Binding sGoing}" />
@@ -44,16 +43,21 @@
                 <DataGridTextColumn Header="Pausenzeit" Width="80" Binding="{Binding sPauseTime}" />
                 <DataGridTextColumn Header="Überstunden" IsReadOnly="True" Width="80" Binding="{Binding sOvertime}" />
                 <DataGridTextColumn Header="Type" Binding="{Binding sType}" />
-
-                <!--<DataGridTemplateColumn Header="Birthday">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
-
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Datensatz Bearbeiten"  IsCheckable="False" Click="mnuEditDay_Clicked">
+                        <MenuItem.Icon>
+                            <Image Source="data/bearbeiten_24.jpg" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                              
+                    <!--<MenuItem Header="_Italic" IsCheckable="True" Checked="Italic_Checked" Unchecked="Italic_Unchecked" />
+                    <Separator />
+                    <MenuItem Header="I_ncrease Font Size" Click="IncreaseFont_Click" />
+                    <MenuItem Header="_Decrease Font Size" Click="DecreaseFont_Click" />-->
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Window>

@@ -15,7 +15,7 @@ namespace Stechuhr.Models
         /// <summary>
         /// Overall Working Time with Pause Time
         /// </summary>
-        public TimeSpan TimeSpan => EndTime - StartTime;
+        public TimeSpan WorkTimeSpan => EndTime - StartTime;
 
         public virtual Object Clone(Object o)
         {

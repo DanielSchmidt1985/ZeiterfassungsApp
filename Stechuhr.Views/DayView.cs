@@ -16,32 +16,32 @@ namespace Stechuhr.Views
 
         public string sType
         {
-            get => wtItem == null ? "" : wtItem.WorktimeType.ToString();
+            get => _wtItem == null ? "" : _wtItem.WorktimeType.ToString();
             set 
             {
                 if (!Enum.TryParse<WorktimeType>(value, out WorktimeType type)) return;
-                if (wtItem == null)
+                if (_wtItem == null)
                 {
-                    wtItem = new WorktimeItem();
-                    wtItem.StartTime = Date;
-                    wtItem.EndTime = Date;
-                    wtItem.WorktimeType = type;
-                    FromWorktimeItem(wtItem);
+                    _wtItem = new WorktimeItem();
+                    _wtItem.StartTime = Date;
+                    _wtItem.EndTime = Date;
+                    _wtItem.WorktimeType = type;
+                    FromWorktimeItem(_wtItem);
                     WorktimeProvider.LoadWorktimeData();
-                    WorktimeProvider.Worktimes.Add(wtItem);
+                    WorktimeProvider.Worktimes.Add(_wtItem);
                     WorktimeProvider.SaveWorktimeData();
                     NotifyPropertyChanged();
                 }
                 else
                 {
                     WorktimeProvider.LoadWorktimeData();
-                    var i = WorktimeProvider.Worktimes.Find(t => t.id == wtItem.id);
+                    var i = WorktimeProvider.Worktimes.Find(t => t.id == _wtItem.id);
                     if (i != null)
                     {
-                        wtItem.WorktimeType = type;
+                        _wtItem.WorktimeType = type;
                         i.WorktimeType = type;
                         WorktimeProvider.SaveWorktimeData();
-                        FromWorktimeItem(wtItem);
+                        FromWorktimeItem(_wtItem);
                         NotifyPropertyChanged();
                     }
                 }
@@ -59,27 +59,27 @@ namespace Stechuhr.Views
                     if (!DateTime.TryParse(value, out DateTime time)) return;
                     time = this.Date.Add(time.TimeOfDay);
 
-                    if (wtItem == null)
+                    if (_wtItem == null)
                     {
-                        wtItem = new WorktimeItem();
-                        wtItem.StartTime = time;
-                        wtItem.EndTime = time;
-                        FromWorktimeItem(wtItem);
+                        _wtItem = new WorktimeItem();
+                        _wtItem.StartTime = time;
+                        _wtItem.EndTime = time;
+                        FromWorktimeItem(_wtItem);
                         WorktimeProvider.LoadWorktimeData();
-                        WorktimeProvider.Worktimes.Add(wtItem);
+                        WorktimeProvider.Worktimes.Add(_wtItem);
                         WorktimeProvider.SaveWorktimeData();
                         NotifyPropertyChanged();
                     }
                     else 
                     {
                         WorktimeProvider.LoadWorktimeData();
-                        var i = WorktimeProvider.Worktimes.Find(t => t.id == wtItem.id);
+                        var i = WorktimeProvider.Worktimes.Find(t => t.id == _wtItem.id);
                         if (i != null)
                         {
-                            wtItem.StartTime = time;
+                            _wtItem.StartTime = time;
                             i.StartTime = time;
                             WorktimeProvider.SaveWorktimeData();
-                            FromWorktimeItem(wtItem);
+                            FromWorktimeItem(_wtItem);
                             NotifyPropertyChanged();
                         }
                     }
@@ -100,20 +100,20 @@ namespace Stechuhr.Views
                     if (!DateTime.TryParse(value, out DateTime time)) return;
                     time = this.Date.Add(time.TimeOfDay);
 
-                    if (wtItem == null)
+                    if (_wtItem == null)
                     {
                         sComming = value;
                     }
                     else
                     {
                         WorktimeProvider.LoadWorktimeData();
-                        var i = WorktimeProvider.Worktimes.Find(t => t.id == wtItem.id);
+                        var i = WorktimeProvider.Worktimes.Find(t => t.id == _wtItem.id);
                         if (i != null)
                         {
-                            wtItem.EndTime = time;
+                            _wtItem.EndTime = time;
                             i.EndTime = time;
                             WorktimeProvider.SaveWorktimeData();
-                            FromWorktimeItem(wtItem);
+                            FromWorktimeItem(_wtItem);
                             NotifyPropertyChanged();
                         }
                     }
@@ -128,11 +128,11 @@ namespace Stechuhr.Views
         {
             get
             {
-                if (wtItem == null)
+                if (_wtItem == null)
                 {
                     return new TimeSpan();
                 }
-                return wtItem.TimeSpan - wtItem.OverallPauseSpan;
+                return _wtItem.WorkTimeSpan - _wtItem.OverallPauseSpan;
             }
         }
         public string sWorkingTime => WorkingTime.Format();
@@ -141,11 +141,11 @@ namespace Stechuhr.Views
         {
             get
             {
-                if (wtItem == null)
+                if (_wtItem == null)
                 {
                     return new TimeSpan();
                 }
-                return wtItem.OverallPauseSpan;
+                return _wtItem.OverallPauseSpan;
             }
         }
         public string sPauseTime
@@ -158,14 +158,14 @@ namespace Stechuhr.Views
             {
                 try
                 {
-                    if (wtItem != null && TimeSpan.TryParse(value, out TimeSpan ts))
+                    if (_wtItem != null && TimeSpan.TryParse(value, out TimeSpan ts))
                     {
                         WorktimeProvider.LoadWorktimeData();
-                        var i = WorktimeProvider.Worktimes.Find(t => t.id == wtItem.id);
+                        var i = WorktimeProvider.Worktimes.Find(t => t.id == _wtItem.id);
                         if (i != null)
                         {
-                            wtItem.PauseTime = ts;
-                            i.PauseTime = wtItem.PauseTime;
+                            _wtItem.PauseTime = ts;
+                            i.PauseTime = _wtItem.PauseTime;
                             WorktimeProvider.SaveWorktimeData();
                             NotifyPropertyChanged();
                         }
@@ -181,7 +181,7 @@ namespace Stechuhr.Views
         {
             get
             {
-                if (wtItem == null)
+                if (_wtItem == null)
                 {
                     TimeSpan ret = new TimeSpan();
                     if (!WorktimeSettings.RegularWorkingDays.Any(t => Date.DayOfWeek == t)) return ret;
@@ -190,7 +190,7 @@ namespace Stechuhr.Views
                 }
                 TimeSpan BaseTime;
                 long rwt = WorktimeSettings.RegularWorkingTime.Ticks;
-                switch (wtItem.WorktimeType)
+                switch (_wtItem.WorktimeType)
                 {
                     case WorktimeType.R:
                         BaseTime = new TimeSpan();
@@ -222,8 +222,9 @@ namespace Stechuhr.Views
         }
         public string sOvertime => Overtime.Format();
 
-        private WorktimeItem wtItem = null;
-        public bool isWtItem { get => wtItem != null; }
+        private WorktimeItem _wtItem = null;
+        public WorktimeItem wtItem { get => _wtItem; set => FromWorktimeItem(value); }
+        public bool isWtItem { get => _wtItem != null; }
 
         public DayView(WorktimeProvider WorktimeProvider, WorktimeSettings settings, DateTime Date)
         {
@@ -238,7 +239,7 @@ namespace Stechuhr.Views
 
         public void FromWorktimeItem(WorktimeItem wtItem)
         {
-            this.wtItem = wtItem;
+            this._wtItem = wtItem;
             this.Date = wtItem.Date;
             this._sComming = wtItem.StartTime.TimeOfDay.Format();
             this._sGoing = wtItem.EndTime.TimeOfDay.Format();
