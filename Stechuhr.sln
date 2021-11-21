@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30330.147
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stechuhr.Controls", "Stechuhr.Controls\Stechuhr.Controls.csproj", "{1B380585-7809-43FB-BED1-F87C8D4D1A46}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stechuhr.UI", "Stechuhr.UI\Stechuhr.UI.csproj", "{E40C156F-7C94-4344-BFD7-E8E4922BE034}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Stechuhr.Installer", "Stechuhr.Installer\Stechuhr.Installer.vdproj", "{D329C14F-94BB-48CA-873B-D78001C06B90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stechuhr.ConvertToExcel", "Stechuhr.ConvertToExcel\Stechuhr.ConvertToExcel.csproj", "{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,14 @@ Global
 		{D329C14F-94BB-48CA-873B-D78001C06B90}.Debug|x86.ActiveCfg = Debug
 		{D329C14F-94BB-48CA-873B-D78001C06B90}.Release|Any CPU.ActiveCfg = Release
 		{D329C14F-94BB-48CA-873B-D78001C06B90}.Release|x86.ActiveCfg = Release
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA0C1D61-34F2-459F-908E-86E89E6E5FFD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
